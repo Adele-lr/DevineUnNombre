@@ -2,54 +2,324 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Devine le nombre entier (avec chrono)</title>
+    <title>Devine le nombre entier avec chrono</title>
+    <link href="js/Modeleboutons.css" rel="stylesheet">
+    <script src="js/Devinelenombre2.js"></script>
+    <link href="js/modeletitre.css" rel="stylesheet">
     <style>
         body {
+            body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             color: black;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Alignement vertical au début */
             height: 100vh;
             margin: 0;
+            padding: 15px; /* Marge intérieure pour espacement */
         }
         #myText {
-            color: white;
-            background-color: darkorange;
-            font-family: Pacifico, cursive;
-            font-size: 26px;
-            padding: 10px;
-            margin-bottom: 20px;
+            font-size: 5%;
+            padding: 1%;
+            width: 100%;
+            text-align: center;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: black;
-            background-color: orange;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
+        .button:hover {
             background-color: darkorange;
         }
         #chrono {
-            font-size: 24px;
-            margin-top: 10px;
+            font-size: 2.2vw; /* Ajusté en fonction de la largeur de l'écran */
+            margin-top: 1%; /* Ajusté en pourcentage */
+            text-align: center;
         }
+        .d-none {
+            display: none !important; /* Utilisation de !important pour s'assurer que la règle est prioritaire */
+}
+       .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Ajusté en pourcentage */
+            margin-bottom: 4%; 
+        }
+        #information {
+            width: 50%; /* Ajusté en pourcentage */
+            height: 13vh; /* Ajusté en fonction de la hauteur de l'écran */
+            padding: 1.5%; /* Ajusté en pourcentage */
+            font-size: 2.2vw; /* Ajusté en fonction de la largeur de l'écran */
+            resize: none;
+            background-color: white;
+            color: black;
+            overflow: hidden;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            position: relative;
+            z-index: 1; /* Mettre à l'arrière */
+            border: none;
+            outline: none;
+        }
+        #bottom-buttons {
+            margin-top: -10%; /* Ajusté en pourcentage */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+        #tableChronosPerso {
+            width: 30%; /* Ajusté en pourcentage */
+            border: 1px solid #ccc;
+            margin-bottom: 10%; /* Ajusté en pourcentage */
+            align-items: center;
+            margin-top: -10%;
+            margin-left: 5%;
+            z-index: 3;
+            position: relative; 
+        }
+        #tableChronosPerso th, #tableChronosPerso td {
+            height: 2%;
+            padding: 2%; /* Ajusté pour plus d'espace */
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        #tableChronosMonde {
+            border: 1px solid #ccc;
+            text-align: center;
+            margin: 0 auto; /* Centre le bouton horizontalement */
+            width: 90%; /* Pour s'assurer qu'il prend tout l'espace disponible */
+            margin-bottom: 7%;
+            margin-top: -10%;
+            padding: 1%;
+            position: relative;
+            z-index: 2; 
+        }
+
+        #tableChronosMonde th,
+        #tableChronosMonde td {
+            height: 5%;
+            padding: 1%; /* Ajusté pour plus d'espace */
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        #lancer {
+            margin: 0 auto; /* Centre le bouton horizontalement */
+            display: block;
+            margin-top: 2%;
+            margin-bottom: 1%;
+        }    
+
     </style>
 </head>
 <body>
-    <div id="myText" onclick="getElementStyles(event);">
-        Joue au jeu du devine le nombre entier !
+        <div id="myText">
+        <h1 class="display-5 fw-bold text-body-emphasis">Joue au jeu du devine le nombre entier !</h1>
     </div>
-    <div><input type="text" id="proposition"/></div>
-    <button id="bigButton">Soumettre ma proposition</button>
-    <h1 id="chrono">00:00:00</h1>
-    <div id="leNombre"></div>
-    <script src="js/Trouvelenombre.js"></script>
+    <button id="lancer" class="btn btn-success align-items-center">Lancer le jeu</button>
+    <div class="button-container">
+        <input type="text" id="proposition" class="d-none" onkeydown="checkEnter(event)" />
+        <button id="soumettre" class="btn btn-success d-inline-flex align-items-center d-none">Soumettre ma proposition</button>
+        <textarea id="information" value="Texte non modifiable"readonly></textarea>
+        <h1 id="chrono" class="d-none">00:00:00</h1>
+        <div id="leNombre" class="d-none"></div>
+    </div>
+    <table id="tableChronosMonde" class="tableau-chronosMonde align-items-center">
+        <thead>
+            <tr>
+                <th colspan="6">Meilleurs temps</th>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <th>Pseudo</th>
+                <th>Chronomètre</th>
+                <th>Position</th>
+                <th>Pseudo</th>
+                <th>Chronomètre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td>11</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td>12</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td></td>
+                <td></td>
+                <td>13</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td>14</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td></td>
+                <td></td>
+                <td>15</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td></td>
+                <td></td>
+                <td>16</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td></td>
+                <td></td>
+                <td>17</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td></td>
+                <td></td>
+                <td>18</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td></td>
+                <td></td>
+                <td>19</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td></td>
+                <td></td>
+                <td>20</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <table id="tableChronosPerso" class="tableau-chronosPerso d-none">
+            <thead>
+                <tr>
+                    <th colspan="2">Meilleurs temps</th>
+                </tr>
+                <tr>
+                    <th>Position</th>
+                    <th>Chronomètre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="bottom-buttons">
+        <button id="rejouer" class="btn btn-primary d-none" onclick="initGame()">Rejouer</button>
+        <button id="abandonner" class="btn btn-danger d-none" onclick="quitterPartie()">Quitter la partie</button>
+    </div>
 </body>
+    <script>
+        // Sélectionne les éléments par leurs ID
+        const soumettreButton = document.getElementById('soumettre');
+        const abandonnerButton = document.getElementById('abandonner');
+        const propositionInput = document.getElementById('proposition');
+        const chrono = document.getElementById('chrono');
+        const leNombre = document.getElementById('leNombre');
+        const informationArea = document.getElementById('information');
+        const rejouerButton = document.getElementById('rejouer');
+        soumettreButton.addEventListener('click', evaluerProposition);
+        const lancerButton = document.getElementById('lancer');
+        var tableChronosMonde = document.getElementById('tableChronosMonde');
+        var tableChronosPerso = document.getElementById('tableChronosPerso');
+        var nombreAleatoire;
+        var essaisUtiliser;
+        var sec, min, hrs;
+        var t;
+        var reponsesDonnees = [];
+        var tempsJeu = "00:00:00";
+        var meilleursTemps = [];
+        var tbody = tableChronosPerso.querySelector('tbody');
+
+        // Ajoute un écouteur d'événement de clic au bouton "Lancer le jeu"
+        lancerButton.addEventListener('click', () => {
+            // Cache le bouton "Lancer le jeu"
+            lancerButton.classList.add('d-none');
+            rejouerButton.classList.add('d-none');
+            tableChronosMonde.classList.add('d-none');
+            // Affiche les autres éléments
+            soumettreButton.classList.remove('d-none');
+            abandonnerButton.classList.remove('d-none');
+            propositionInput.classList.remove('d-none');
+            chrono.classList.remove('d-none');
+            leNombre.classList.remove('d-none');
+            tableChronosPerso.classList.remove('d-none');
+            propositionInput.classList.remove('d-none')
+
+            initGame();
+        });
+
+    </script>
 </html>
