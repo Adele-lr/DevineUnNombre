@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Devine le nombre entier avec chrono</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #myText {
+            color: white;
+            background-color: darkorange;
+            font-family: Pacifico, cursive;
+            font-size: 26px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: black;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: darkorange;
+        }
+        #chrono {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myText" onclick="getElementStyles(event);">
+        Joue au jeu du devine le nombre entier !
+    </div>
+    <div><input type="text" id="proposition"/></div>
+    <button id="bigButton">Soumettre ma proposition</button>
+    <h1 id="chrono">00:00:00</h1>
+    <div id="leNombre"></div>
+    <script src="js/Trouvelenombre.js"></script>
+</body>
+</html>
