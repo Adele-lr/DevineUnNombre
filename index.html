@@ -97,25 +97,6 @@
             border: 1px solid #ccc;
             text-align: center;
         }
-        #tableChronosMonde {
-            border: 1px solid #ccc;
-            text-align: center;
-            margin: 0 auto; /* Centre le bouton horizontalement */
-            width: 90%; /* Pour s'assurer qu'il prend tout l'espace disponible */
-            margin-bottom: 7%;
-            margin-top: -10%;
-            padding: 1%;
-            position: relative;
-            z-index: 2; 
-        }
-
-        #tableChronosMonde th,
-        #tableChronosMonde td {
-            height: 5%;
-            padding: 1%; /* Ajusté pour plus d'espace */
-            border: 1px solid #ccc;
-            text-align: center;
-        }
         #lancer {
             margin: 0 auto; /* Centre le bouton horizontalement */
             display: block;
@@ -355,7 +336,6 @@ function handleSubmit(event) {
         localStorage.setItem('usernameSubmitted', 'true'); // Enregistre que le pseudo a été soumis
         document.getElementById('form-container').classList.add('d-none'); // Cache le formulaire de pseudo
         document.getElementById('lancer').classList.remove('d-none'); // Affiche le bouton "Lancer le jeu"
-        document.getElementById('tableChronosMonde').classList.remove('d-none'); // Affiche le tableau des meilleurs chronos
     }
     else {
         document.getElementById('form-container').style.display = 'block'
@@ -371,7 +351,6 @@ function handleSubmit(event) {
         const rejouerButton = document.getElementById('rejouer');
         soumettreButton.addEventListener('click', evaluerProposition);
         const lancerButton = document.getElementById('lancer');
-        var tableChronosMonde = document.getElementById('tableChronosMonde');
         var tableChronosPerso = document.getElementById('tableChronosPerso');
         var nombreAleatoire;
         var essaisUtiliser;
@@ -387,7 +366,6 @@ function handleSubmit(event) {
             // Cache le bouton "Lancer le jeu"
             lancerButton.classList.add('d-none');
             rejouerButton.classList.add('d-none');
-            tableChronosMonde.classList.add('d-none');
             // Affiche les autres éléments
             soumettreButton.classList.remove('d-none');
             abandonnerButton.classList.remove('d-none');

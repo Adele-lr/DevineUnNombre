@@ -42,7 +42,6 @@ function resetGame() {
 
     // Affiche le bouton "Lancer le jeu"
     lancerButton.classList.remove('d-none');
-    tableChronosMonde.classList.remove('d-none');
 
     // Réinitialise les autres éléments si nécessaire
     propositionInput.value = '';
