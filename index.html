@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Version 0.1.0-1 -->
     <meta charset="UTF-8">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
     <title>Devine le nombre entier avec chrono</title>
     <link href="js/Modeleboutons.css" rel="stylesheet">
     <script src="js/Devinelenombre2.js"></script>
     <link href="js/modeletitre.css" rel="stylesheet">
+    <link href="js/modeleidentification.css" rel="stylesheet">
     <style>
         body {
             body {
@@ -21,10 +26,15 @@
             padding: 15px; /* Marge intérieure pour espacement */
         }
         #myText {
-            font-size: 5%;
-            padding: 1%;
             width: 100%;
             text-align: center;
+            margin-top: 3%;
+            margin-bottom: 2%;
+        }
+        #proposition {
+            width: 270px;
+            font-size: 150%;
+            margin-top: 0%;
         }
         .button:hover {
             background-color: darkorange;
@@ -41,12 +51,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px; /* Ajusté en pourcentage */
-            margin-bottom: 4%; 
+            gap: 10px; 
+            margin-bottom: 3%; 
         }
         #information {
-            width: 50%; /* Ajusté en pourcentage */
-            height: 13vh; /* Ajusté en fonction de la hauteur de l'écran */
+            width: 100%; /* Ajusté en pourcentage */
+            height: 11vh; /* Ajusté en fonction de la hauteur de l'écran */
             padding: 1.5%; /* Ajusté en pourcentage */
             font-size: 2.2vw; /* Ajusté en fonction de la largeur de l'écran */
             resize: none;
@@ -60,20 +70,22 @@
             border: none;
             outline: none;
         }
-        #bottom-buttons {
-            margin-top: -10%; /* Ajusté en pourcentage */
+        #bottom-b {
+            margin-top: -10%;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             gap: 10px;
+            width: 100%;
+            position: relative;
         }
         #tableChronosPerso {
             width: 30%; /* Ajusté en pourcentage */
             border: 1px solid #ccc;
             margin-bottom: 10%; /* Ajusté en pourcentage */
             align-items: center;
-            margin-top: -10%;
+            margin-top: -13%;
             margin-left: 5%;
             z-index: 3;
             position: relative; 
@@ -107,27 +119,64 @@
             margin: 0 auto; /* Centre le bouton horizontalement */
             display: block;
             margin-top: 2%;
-            margin-bottom: 1%;
+            margin-bottom: 4%;
         }    
-
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+        }
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+        .form-signin input[type="text"] {
+            margin-bottom: 10px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin button {
+            width: 100%;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
         <div id="myText">
-        <h1 class="display-5 fw-bold text-body-emphasis">Joue au jeu du devine le nombre entier !</h1>
-    </div>
-    <button id="lancer" class="btn btn-success align-items-center">Lancer le jeu</button>
+        <h1 class="display-3 fw-bold text-body-emphasis">Joue au jeu du devine le nombre entier !</h1>
+    </div> 
+    <main class="form-signin w-100 m-auto text-center" id="form-container" class="d-flex align-items-center py-4 bg-body-tertiary">
+        <form onsubmit="handleSubmit(event)">
+            <h1 class="h3 mb-3 fw-normal">Veillez entrer votre pseudo</h1>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Username" required>
+                <label for="floatingInput">Pseudo</label>
+            </div>
+            <button class="btn btn-primary" id="submit">Valider</button>
+        </form>
+    </main>
+    <button id="lancer" class="btn btn-success btn-lg d-none align-items-center">Lancer le jeu</button>
     <div class="button-container">
-        <input type="text" id="proposition" class="d-none" onkeydown="checkEnter(event)" />
-        <button id="soumettre" class="btn btn-success d-inline-flex align-items-center d-none">Soumettre ma proposition</button>
         <textarea id="information" value="Texte non modifiable"readonly></textarea>
+        <input type="text" id="proposition" class="d-none" onkeydown="checkEnter(event)" />
+        <button id="soumettre" class="btn btn-success d-inline-flex align-items-center d-none btn-lg">Soumettre ma proposition</button>
         <h1 id="chrono" class="d-none">00:00:00</h1>
         <div id="leNombre" class="d-none"></div>
     </div>
-    <table id="tableChronosMonde" class="tableau-chronosMonde align-items-center">
+    <table id="tableChronosMonde" class="tableau-chronosMonde d-none align-items-center">
         <thead>
             <tr>
-                <th colspan="6">Meilleurs temps</th>
+                <th colspan="6">Les meilleurs temps</th>
             </tr>
             <tr>
                 <th>Position</th>
@@ -225,7 +274,7 @@
         <table id="tableChronosPerso" class="tableau-chronosPerso d-none">
             <thead>
                 <tr>
-                    <th colspan="2">Meilleurs temps</th>
+                    <th colspan="2">Mes meilleurs temps du jour</th>
                 </tr>
                 <tr>
                     <th>Position</th>
@@ -276,12 +325,41 @@
             </tbody>
         </table>
     </div>
-    <div id="bottom-buttons">
-        <button id="rejouer" class="btn btn-primary d-none" onclick="initGame()">Rejouer</button>
-        <button id="abandonner" class="btn btn-danger d-none" onclick="quitterPartie()">Quitter la partie</button>
+    <div id="bottom-b">
+        <button id="rejouer" class="btn btn-primary d-none btn-lg" onclick="initGame()">Rejouer</button>
+        <button id="abandonner" class="btn btn-danger d-none btn-lg" onclick="quitterPartie()">Quitter la partie</button>
     </div>
 </body>
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
     <script>
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    let submitButton = document.getElementById('submit');
+
+    if (submitButton) {
+        submitButton.addEventListener('click', handleSubmit);
+    } else {
+        document.getElementById('form-container').style.display = 'block';}
+});
+
+function handleSubmit(event) {
+    event.preventDefault(); // Empêche le comportement par défaut du formulaire (soumission et rafraîchissement de la page)
+
+    let username = document.getElementById('floatingInput').value.trim(); // Récupère le pseudo saisi par l'utilisateur
+
+    if (username !== '') {
+        // Si le champ de pseudo n'est pas vide
+        localStorage.setItem('usernameSubmitted', 'true'); // Enregistre que le pseudo a été soumis
+        document.getElementById('form-container').classList.add('d-none'); // Cache le formulaire de pseudo
+        document.getElementById('lancer').classList.remove('d-none'); // Affiche le bouton "Lancer le jeu"
+        document.getElementById('tableChronosMonde').classList.remove('d-none'); // Affiche le tableau des meilleurs chronos
+    }
+    else {
+        document.getElementById('form-container').style.display = 'block'
+    }
+}
         // Sélectionne les éléments par leurs ID
         const soumettreButton = document.getElementById('soumettre');
         const abandonnerButton = document.getElementById('abandonner');

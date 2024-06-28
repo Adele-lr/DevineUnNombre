@@ -38,6 +38,7 @@ function resetGame() {
     
     // Réinitialise le tableau des meilleurs temps
     meilleursTemps = [];
+    reponsesDonnees = [];
 
     // Affiche le bouton "Lancer le jeu"
     lancerButton.classList.remove('d-none');
@@ -65,7 +66,7 @@ function freezeGame() {
 function initGame() {
     // Arrêter le chronomètre actif s'il y en a un
     stopChronometer();
-
+    reponsesDonnees = [];
     // Réinitialiser les variables de jeu
     propositionInput.value = '';
     clearInformationArea();
@@ -92,7 +93,6 @@ function initGame() {
     abandonnerButton.classList.remove('d-none');
     leNombre.classList.remove('d-none');
 }
-
 function evaluerProposition() {
     clearInformationArea();
     var machaine = document.getElementById('proposition').value;
